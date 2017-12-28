@@ -12,6 +12,7 @@ Highcharts.setOptions({
 var lines, items,
   arr_ditems = [],
   arr_data = [],
+  arr_text = [],
   curr_domain, curr_element,
   curr_data_scatter, curr_data_bar, curr_data_scatter2,
   curr_xcat = [],
@@ -38,33 +39,46 @@ function pushData(dobj, things) {
 }
 
 function create_dmenu (datain) {
-  var i, temp;
+  var i, temp = [], text;
   arr_ditems = [];
   $.each(datain, function (i, item) {
     if ((arr_ditems.indexOf(item.element_name) === -1) && (typeof(item.element_name) !== "undefined")) {
       arr_ditems.push(item.element_name);
     }
   });
+  text = $.grep(arr_text, function (n,i) {
+    return n.domain === curr_domain;
+  });
   curr_element = arr_ditems[0];
-  arr_ditems.sort();
+  for (i=0; i<arr_ditems.length; i=i+1) {
+    if (typeof(text[i]) !== "undefined") {
+      temp.push({'element_name': arr_ditems[i], 'desc': text[i]['desc']});
+    }
+  };
+  temp.sort(function (a,b) {
+    return a.element_name > b.element_name;
+  });
   $('#dmenu').empty();
   for (i in arr_ditems) {
-    if (arr_ditems[i] === curr_element) {
+    if (typeof(temp[i]) !== "undefined") {
+    if (temp[i]['element_name'] === curr_element) {
       $('#dmenu').append(
         $('<li>').attr("class", "list-group-item active").attr("data-toggle", "list").append(
-          $('<a>').attr("class", "d-element").attr("title", "Click to see data for this competency").append(
-            arr_ditems[i])
+          $('<a>').attr("class", "d-element").attr("title", temp[i]['desc']).append(
+            temp[i]['element_name'])
           )
        )}
        else {
          $('#dmenu').append(
            $('<li>').attr("class", "list-group-item").attr("data-toggle", "list").append(
-             $('<a>').attr("class", "d-element").attr("title", "Click to see data for this competency").append(
-               arr_ditems[i])
+             $('<a>').attr("class", "d-element").attr("title", temp[i]['desc']).append(
+               temp[i]['element_name'])
              )
           )};
-   }
+        }
+      }
 }
+
 function switchDomain (filename) {
   $.get(filename, function (data, status) {
     lines = data.split('\n');
@@ -309,48 +323,60 @@ function scatterChart2(pelement) {
 $(document).ready(function () {
   'use strict';
 
-  $.get('abilities_earn.tsv', function (data, status) {
+  $.get("ContentModel_DetailedDesc_group.txt", function (data, status) {
     lines = data.split('\n');
     $.each(lines, function (lineNo, line) {
       line = line.replace(/(\r\n|\n|\r)/gm, "");
+      line = line.replace(/"/gm,"");
       items = line.split('\t');
       if (lineNo > 0) {
-        pushData(arr_data, items);
+        arr_text.push({'domain': items[0], 'element_id': items[1], 'element_name': items[2], 'desc': items[3]});
       }
     });
 
-    //Initialize
-    curr_domain = 'Ability';
-    create_dmenu(arr_data);
-    barChart(curr_element);
-    scatterChart2(curr_element);
-    scatterChart(curr_element);
+    $.get('abilities_earn.tsv', function (data, status) {
+      lines = data.split('\n');
+      $.each(lines, function (lineNo, line) {
+        line = line.replace(/(\r\n|\n|\r)/gm, "");
+        items = line.split('\t');
+        if (lineNo > 0) {
+          pushData(arr_data, items);
+        }
+      });
 
-    $(".d-element").on('click', function () {
-      curr_element = $(this).text().trim();
-      scatterChart(curr_element);
+      //Initialize
+      curr_domain = 'Abilities';
+      create_dmenu(arr_data);
       barChart(curr_element);
       scatterChart2(curr_element);
+      scatterChart(curr_element);
+
+      $(".d-element").on('click', function () {
+        curr_element = $(this).text().trim();
+        scatterChart(curr_element);
+        barChart(curr_element);
+        scatterChart2(curr_element);
+      });
+      $(".domain-list").on('click', function () {
+        curr_domain = $(this).text().trim();
+        arr_data = [];
+        if (curr_domain === "Knowledge") {
+          switchDomain("knowledge_earn.tsv");
+        } else if (curr_domain === "Skills") {
+          switchDomain("skills_earn.tsv");
+        } else if (curr_domain === "Work activities") {
+          switchDomain("activities_earn.tsv");
+        } else if (curr_domain === "Work context") {
+          switchDomain("context_earn.tsv");
+        } else if (curr_domain === "Work styles") {
+          switchDomain("styles_earn.tsv");
+        } else if (curr_domain === "Activities") {
+          switchDomain("activities_earn.tsv");
+        };
+      });
+      // console.log(curr_data_bar);
+      // console.log(curr_scatter_series);
+      // console.log(arr_data);
     });
-    $(".domain-list").on('click', function () {
-      curr_domain = $(this).text().trim();
-      arr_data = [];
-      if (curr_domain === "Knowledge") {
-        switchDomain("knowledge_earn.tsv");
-      } else if (curr_domain === "Skills") {
-        switchDomain("skills_earn.tsv");
-      } else if (curr_domain === "Work Activities") {
-        switchDomain("activities_earn.tsv");
-      } else if (curr_domain === "Work Context") {
-        switchDomain("context_earn.tsv");
-      } else if (curr_domain === "Work Styles") {
-        switchDomain("styles_earn.tsv");
-      } else if (curr_domain === "Activities") {
-        switchDomain("activities_earn.tsv");
-      };
-    });
-    // console.log(curr_data_bar);
-    // console.log(curr_scatter_series);
-    // console.log(arr_data);
   });
-})
+});
