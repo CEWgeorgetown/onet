@@ -14,7 +14,7 @@ Highcharts.setOptions({
 
 var lines, items,
   arr_data = [], curr_domain, curr_occupation, curr_heatmap_data,
-  curr_heatmap_series_name = [], curr_xcat, curr_ycat;
+  curr_heatmap_series_name = [], curr_xcat, curr_ycat, curr_bar_cat;
 
 function pushData(dobj, things) {
   'use strict';
@@ -40,6 +40,7 @@ function heatChart () {
   curr_heatmap_series = [];
   curr_xcat = [];
   curr_ycat = [];
+  curr_bar_cat = [];
   /* Set turboThreshold to 0 otherwise axes extends beyond and colors become black */
   curr_heatmap_series_name = {'name': curr_domain, 'turboThreshold': 0, 'data': []};
   $.each(curr_heatmap_data, function (i, item) {
@@ -48,19 +49,26 @@ function heatChart () {
     };
     if ((curr_ycat.indexOf(item.soc_title) === -1) && (typeof(item.soc_title) !== "undefined")) {
       curr_ycat.push(item.soc_title);
+      curr_bar_cat.push(item.annual_earn);
     };
   });
   curr_ycat.reverse();
+  curr_bar_cat.reverse();
   if (curr_ycat.length < 25) {
     $("#hcharts4").css("height", "600px");
+    $("#hcharts4a").css("height", "480px");
   } else if (curr_ycat.length < 50) {
     $("#hcharts4").css("height", "900px");
+    $("#hcharts4a").css("height", "780px");
   } else if (curr_ycat.length < 75) {
     $("#hcharts4").css("height", "1200px");
+    $("#hcharts4a").css("height", "1080px");
   } else if (curr_ycat.length < 100) {
     $("#hcharts4").css("height", "1500px");
+    $("#hcharts4a").css("height", "1380px");
   } else {
     $("#hcharts4").css("height", "2100px");
+    $("#hcharts4a").css("height", "1980px");
   }
   for (y = 0; y < curr_ycat.length; y = y + 1) {
     temp = $.grep(curr_heatmap_data, function (n, i) {
@@ -70,13 +78,6 @@ function heatChart () {
       curr_heatmap_series_name['data'].push([x, y, item.avg_scale]);
     });
   };
-  // temp = $.grep(curr_heatmap_data, function (n, i) {
-  //   return n.soc_title === curr_ycat[0];
-  // });
-  //   $.each(temp, function (x, item) {
-  //     curr_heatmap_series_name['data'].push([x, 0, item.avg_scale]);
-  //   });
-
   $('#hcharts4').highcharts({
     chart: {
       type: 'heatmap'
@@ -114,6 +115,53 @@ function heatChart () {
       enabled: false
     },
     series: [curr_heatmap_series_name]
+  });
+
+  $('#hcharts4a').highcharts({
+    chart: {
+      type: 'bar'
+    },
+    title: {
+      text: "Earnings"
+    },
+    xAxis: {
+      categories: curr_ycat,
+      labels: {
+        enabled: false
+      },
+      tickLength: 0,
+      reversed: false
+    },
+    yAxis: {
+      title: null,
+      labels: {
+        enabled: false
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    credits: {
+      enabled: false
+    },
+    tooltip: {
+      pointFormat: '${point.y}'
+    },
+    plotOptions: {
+      series: {
+        pointPadding: 0.1,
+        groupPadding: 0.1,
+        borderWidth: 0,
+        dataLabels: {
+          enabled: true,
+          format: '${y:,1f}',
+          style: {
+            fontWeight: 'normal'
+          }
+        }
+      }
+    },
+    series: [{'name': curr_occupation, 'color': '#347B98', 'data': curr_bar_cat}]
   });
 };
 
