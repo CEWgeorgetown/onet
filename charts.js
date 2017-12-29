@@ -111,7 +111,7 @@ function scatterChart(pelement) {
     temp = $.grep(curr_data_scatter, function (n, i) {
       return n.jobzone === j;
     });
-    curr_scatter_series_name = {'name': 'Jobzone ' + j, 'color': colorpalette1[j-1], 'data': []};
+    curr_scatter_series_name = {'name': 'Job zone ' + j, 'color': colorpalette1[j-1], 'data': []};
     $.each(temp, function (i, item) {
       curr_scatter_series_name['data'].push({'x': item.avg_scale, 'y': item.annual_earn,
         'name': item.soc_title, 'jobzone': item.jobzone, 'competency': pelement});
@@ -184,7 +184,7 @@ function scatterChart(pelement) {
 function barChart(pelement) {
   var labels = ["Top quartile", "2nd quartile", "3rd quartile", "Bottom quartile"];
   var colorpalette2 = ["#B2D732", "#66B032", "#347B98", "#092834"];
-  curr_xcat = ["Jobzone 1", "Jobzone 2", "Jobzone 3", "Jobzone 4", "Jobzone 5"];
+  curr_xcat = ["Job zone 1", "Job zone 2", "Job zone 3", "Job zone 4", "Job zone 5"];
   curr_bar_series = [];
   curr_data_bar = $.grep(arr_data, function (n, i) {
     return n.element_name === pelement && n.type === "0";
@@ -205,7 +205,7 @@ function barChart(pelement) {
         color: "#696969",
         fontFamily: 'PT Serif Caption'
       },
-      text: "Annual earnings by score quartiles and jobzone: " + pelement
+      text: "Annual earnings by score quartiles and job zone: " + pelement
     },
     chart: {
       type: 'column'
@@ -252,9 +252,30 @@ function scatterChart2(pelement) {
   curr_data_scatter2 = $.grep(arr_data , function (n, i) {
     return n.element_name === pelement && n.type === "2";
   });
-  curr_scatter2_series_name = {'name': pelement, 'data': []};
-  $.each(curr_data_scatter2, function (i, item) {
-    curr_scatter2_series_name['data'].push({'x': item.avg_scale, 'y': item.annual_earn, 'name': item.soc_title});
+  temp = $.grep(curr_data_scatter2, function (n,i) {
+    return n.soc_title === 'Farming, fisheries, and forestry' ||
+      n.soc_title === 'Construction and extraction' ||
+      n.soc_title === 'Installation, maintenance and repair' ||
+      n.soc_title === 'Production' ||
+      n.soc_title === 'Transportation and material moving';
+  });
+  curr_scatter2_series_name = {'name': 'Blue-collar', 'color': '#133863', 'data': []};
+  $.each(temp, function (i, item) {
+    curr_scatter2_series_name['data'].push({'x': item.avg_scale, 'y': item.annual_earn,
+      'name': item.soc_title, 'element_name': pelement});
+  });
+  curr_scatter2_series.push(curr_scatter2_series_name);
+  temp = $.grep(curr_data_scatter2, function (n,i) {
+    return !(n.soc_title === 'Farming, fisheries, and forestry' ||
+      n.soc_title === 'Construction and extraction' ||
+      n.soc_title === 'Installation, maintenance and repair' ||
+      n.soc_title === 'Production' ||
+      n.soc_title === 'Transportation and material moving');
+  });
+  curr_scatter2_series_name = {'name': 'White-collar', 'color': '#C8C8C8', 'data': []};
+  $.each(temp, function (i, item) {
+    curr_scatter2_series_name['data'].push({'x': item.avg_scale, 'y': item.annual_earn,
+      'name': item.soc_title, 'element_name': pelement});
   })
   curr_scatter2_series.push(curr_scatter2_series_name);
   $('#hcharts3').highcharts({
@@ -287,7 +308,7 @@ function scatterChart2(pelement) {
       }
     },
     legend: {
-      enabled: false
+      enabled: true
     },
     plotOptions: {
       scatter: {
@@ -309,7 +330,7 @@ function scatterChart2(pelement) {
         },
         tooltip: {
           headerFormat: '<b>{series.name}</b><br>',
-          pointFormat: '{point.name}: Score: {point.x: .1f}, <br>Annual earnings: ${point.y}'
+          pointFormat: '<em>{point.element_name}</em> <br> {point.name}: Score: {point.x: .1f}, <br>Annual earnings: ${point.y}'
         }
       }
     },

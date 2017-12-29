@@ -19,10 +19,23 @@
   <!-- script src="//code.highcharts.com/highcharts-more.js" type="text/javascript"></script -->
 </head>
 <div class="container">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Earnings<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index2.html">Occupations</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="method.html">Methodology</a>
+      </li>
+    </ul>
+  </nav>
   <h2>ONET Competencies</h2>
   <hr>
   <div class="row">
-    <div class="list-group list-head">
+    <div class="list-group list-head pl-4">
       <li class ="bg-info text-dark list-title">Domain</li>
       <li class="list-group-item active" data-toggle="list"><a class="domain-list">Abilities</a></li>
       <li class="list-group-item" data-toggle="list"><a class="domain-list">Knowledge</a>
@@ -38,16 +51,23 @@
   </div>
   <hr>
   <div class="row">
-      <div class="col-md-8">
-        <div id="hcharts1"></div>
+    <div class="col-md-8">
+      <div id="hcharts1"></div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-12"><div id="hcharts2"></div></div>
+        <div class="col-md-12"><div id="hcharts3"></div></div>
       </div>
-      <div class="col-md-4">
-        <div class="row">
-          <div class="col-md-12"><div id="hcharts2"></div></div>
-          <div class="col-md-12"><div id="hcharts3"></div></div>
-        </div>
-      </div>
+    </div>
   </div>
+  <div class="notes">
+    Job Zone 1 - occupations that need little or no preparation<br>
+    Job Zone 2 - occupations that need some preparation<br>
+    Job Zone 3 - occupations that need medium preparation<br>
+    Job Zone 4 - occupations that need considerable preparation<br>
+    Job Zone 5 - occupations that need extensive preparation<br>
+</div>
   <!-- <div id="legend" class="col-md-12">
     <div class="row">
       <svg width="800" height="20">
