@@ -56,7 +56,7 @@ function create_dmenu (datain) {
     }
   };
   temp.sort(function (a,b) {
-    return a.element_name > b.element_name;
+    return a.element_name < b.element_name ? -1 : 1;
   });
   $('#dmenu').empty();
   for (i in arr_ditems) {
