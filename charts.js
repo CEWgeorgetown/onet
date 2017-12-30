@@ -391,8 +391,8 @@ $(document).ready(function () {
           switchDomain("context_earn.tsv");
         } else if (curr_domain === "Work styles") {
           switchDomain("styles_earn.tsv");
-        } else if (curr_domain === "Activities") {
-          switchDomain("activities_earn.tsv");
+        } else if (curr_domain === "Abilities") {
+          switchDomain("abilities_earn.tsv");
         };
       });
       // console.log(curr_data_bar);
