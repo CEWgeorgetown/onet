@@ -21,7 +21,7 @@
   overflow-y: scroll;
 }
 .list-title {
-  padding: 5%;
+  padding: 5px;
   font-weight: bold;
   list-style-type: none;
 }
