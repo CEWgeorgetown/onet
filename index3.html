@@ -15,20 +15,21 @@
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
   <script src="//code.highcharts.com/highcharts.js" type="text/javascript"></script>
-  <script src="//code.highcharts.com/modules/heatmap.js" type="text/javascript"></script>
-  <script src="charts2.js" type="text/javascript"></script>
+  <script src="//code.highcharts.com/highcharts-more.js"></script>
+  <script src="charts3.js" type="text/javascript"></script>
+  <!-- script src="//code.highcharts.com/highcharts-more.js" type="text/javascript"></script -->
 </head>
 <div class="container">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">Earnings</a>
-      </li>
       <li class="nav-item active">
-        <a class="nav-link" href="#">Occupations<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">Earnings</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="index3.html">Employment</a>
+        <a class="nav-link" href="index2.html">Occupations</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index3.html">Employment<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="method.html">Methodology</a>
@@ -46,6 +47,10 @@
       <li class="list-group-item" data-toggle="list"><a class="domain-list">Work activities</a></li>
       <li class="list-group-item" data-toggle="list"><a class="domain-list">Work context</a></li>
       <li class="list-group-item" data-toggle="list"><a class="domain-list">Work styles</a></li>
+    </div>
+    <div class="list-group list-head">
+      <li class ="bg-info text-dark list-title">Competency</li>
+      <div id="dmenu" class="border-1"></div>
     </div>
     <div class="list-group list-head">
       <li class ="bg-info text-dark list-title">Occupations</li>
@@ -75,12 +80,28 @@
   </div>
   <hr>
   <div class="row">
-    <div class="col-md-2 pr-0">
-      <div id="hcharts4a"></div>
-    </div>
-    <div class="col-md-10 pl-0">
-      <div id="hcharts4"></div>
+    <div class="col-md-12">
+      <div id="hcharts5"></div>
     </div>
   </div>
+  <div class="notes">
+    Job Zone 1 - occupations that need little or no preparation<br>
+    Job Zone 2 - occupations that need some preparation<br>
+    Job Zone 3 - occupations that need medium preparation<br>
+    Job Zone 4 - occupations that need considerable preparation<br>
+    Job Zone 5 - occupations that need extensive preparation<br>
+</div>
+  <!-- <div id="legend" class="col-md-12">
+    <div class="row">
+      <svg width="800" height="20">
+        <circle cx="5" cy="5" r="5" fill="#E8D4F7" /><text y="10" x="15">Job zone 1</text>
+        <circle cx="105" cy="5" r="5" fill="#700CBC" /><text y="10" x="115">Job zone 2</text>
+        <circle cx="205" cy="5" r="5" fill="#FDED2A" /><text y="10" x="215">Job zone 3</text>
+        <circle cx="305" cy="5" r="5" fill="#B8AA14" /><text y="10" x="315">Job zone 4</text>
+        <circle cx="405" cy="5" r="5" fill="#343009" /><text y="10" x="415">Job zone 5</text>
+      </svg>
+    </div>
+  </div> -->
+
 </div>
 </html>
