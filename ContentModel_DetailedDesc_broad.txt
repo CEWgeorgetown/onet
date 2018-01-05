@@ -1,0 +1,49 @@
+Domain	Element ID	Element Name	Description			
+Abilities	1.A.4.b	Auditory and speech	Sensory abilities related to auditory and oral input			
+Abilities	1.A.2.b	Control movement	Psychomotor abilities related to the control and manipulation of objects in time and space			
+Abilities	1.A.2.a	Fine manipulative	Psychomotor abilities related to the manipulation of objects			
+Abilities	1.A.3.c	"Flexibility, balance, and coordination"	Physical abilities related to the control of gross body movements			
+Abilities	1.A.1.b	Idea generation and reasoning	Cognitive abilities that influence the application and manipulation of information in problem solving			
+Abilities	1.A.1.e	"Perceptual, spatial, and attentiveness"	"Cognitive abilities related to the acquisition and organization of visual information, the manipulation and organization of spatial information, and the application of attention"			
+Abilities	1.A.3.a	Physical strength and endurance	Physical abilities related to the capacity to exert force and to exert oneself physically over long periods without getting out of breath			
+Abilities	1.A.1.c	Quantitative and memory	Cognitive abilities that influence the solution of problems involving mathematical relationships and the recall of available information			
+Abilities	1.A.2.c	Reaction time and speed	Psychomotor abilities related to speed of manipulation of objects			
+Abilities	1.A.1.a	Verbal	Cognitive abilities that influence the acquisition and application of verbal information in problem solving			
+Abilities	1.A.4.a	Visual	Sensory abilities related to visual sensory input			
+Knowledge	2.C.7	Arts and humanities	"Knowledge of facts and principles related to the branches of learning concerned with human thought, language, and the arts."			
+Knowledge	2.C.1	Business and management	"Knowledge of principles and facts related to business administration and accounting, human and material resource management in organizations, sales and marketing, economics, and office information and organizing systems"			
+Knowledge	2.C.9	Communications	Knowledge of the science and art of delivering information			
+Knowledge	2.C.6	Education and training	"Knowledge of principles and methods for curriculum and training design, teaching and instruction for individuals and groups, and the measurement of training effects."			
+Knowledge	2.C.3	Engineering and technology	"Knowledge of the design, development, and application of technology for specific purposes."			
+Knowledge	2.C.5	Health services	"Knowledge of principles and facts regarding diagnosing, curing, and preventing disease, and improving and preserving physical and mental health and well-being"			
+Knowledge	2.C.8	Law and public safety	"Knowledge of regulations and methods for maintaining people and property free from danger, injury, or damage; the rules of public conduct established and enforced by legislation, and the political process establishing such rules."			
+Knowledge	2.C.2	"Manufacturing, production, and transportation"	"Knowledge of principles and facts related to the production, processing, storage, and distribution of manufactured and agricultural goods; and principles and methods for moving people or goods by air, rail, sea, or road, including the relative costs and benefits."			
+Knowledge	2.C.4	Mathematics and science	"Knowledge of the history, theories, methods, and applications of the physical, biological, social, mathematical, and geography"			
+Skills	2.A.1	Content	Basic: Background structures needed to work with and acquire more specific skills in a variety of different domains			
+Skills	2.A.2	Process	Basic: Procedures that contribute to the more rapid acquisition of knowledge and skill across a variety of domains			
+Skills	2.B.5	Resource management	Cross-functional: Developed capacities used to allocate resources efficiently			
+Skills	2.B.1	Social	Cross-functional: Developed capacities used to work with people to achieve goals			
+Skills	2.B.2	Systems and complex problem solving	"Cross-functional: Developed capacities used to solve novel, ill-defined problems in complex, real-world settings; and understand, monitor, and improve socio-technical systems"			
+Skills	2.B.3	Technical	"Cross-functional: Developed capacities used to design, set-up, operate, and correct malfunctions involving application of machines or technological systems"			
+Work activities	4.A.4.c	Administering	"Degree of administrative, staffing, monitoring, or controlling activities are done while performing this job"			
+Work activities	4.A.4.a	Communicating and interacting	Degree of interactions with other people occur while performing this job			
+Work activities	4.A.4.b	"Coordinating, developing, managing, and advising"	"Intensity of coordinating, managerial, or advisory activities are done while performing this job"			
+Work activities	4.A.2.a	Information and data processing	Intensity of information processing to perform this job			
+Work activities	4.A.1	Information input	Intensity of information and data gathering that are needed to perform this job			
+Work activities	4.A.3.b	Performing complex and technical activities	Degree of skilled activities using coordinated movements to perform this job?			
+Work activities	4.A.3.a	Performing physical and manual work activities	Intensity of activities using the body and hands  to perform this job			
+Work activities	4.A.2.b	Reasoning and decision making	Degree of decision making and problems solving in performing this job			
+Work context	4.C.2.d	Body positioning	Amount of time the worker will spend in a variety of physical positions on this job			
+Work context	4.C.1.a	Communication	Degree of interactions with other people that are required as part of this job.			
+Work context	4.C.3.c	Competition and pace and scheduling	Degree of competition and role that time plays that the worker will face as part of this job			
+Work context	4.C.1.d	Conflictual contact	Amount of conflict that the worker will encounter as part of this job			
+Work context	4.C.3.a	Criticality	Degree of impact the worker has on final products and their outcomes			
+Work context	4.C.2.b	Environmental conditions	Intensity of interactions between the worker and extreme environmental conditions			
+Work context	4.C.2.c	Job hazards and work attire	"Degree of hazardous conditions the worker could be exposed to as part of this job. This includes the frequency of exposure, and the likelihood and degree of injury if exposed and degree of protective and safety dress requirements of this job"			
+Work context	4.C.1.b.1	Job interactions and responsibility	Degree of human interactions and amount of responsibility the worker has for other workers as a part of this job			
+Work context	4.C.3.b	Routine vs challenging	The relative amounts of routine versus challenging work the worker will perform as part of this job			
+Work styles	1.C.1	Achievement	"Job requires personal goal setting, trying to succeed at those goals, and striving to be competent in own work"			
+Work styles	1.C.4	Adjustment	"Job requires maturity, poise, flexibility, and restraint to cope with pressure, stress, criticism, setbacks, personal and work-related problems, etc."			
+Work styles	1.C.5	Conscientiousness	"Job requires dependability, commitment to doing the job correctly and carefully, and being trustworthy, accountable, and attentive to details"			
+Work styles	1.C.6	Independence and practical intelligence	"Job requires developing one's own ways of doing things, guiding oneself with little or no supervision, and depending on oneself to get things done; generating useful ideas and thinking things through logically"			
+Work styles	1.C.3	Interpersonal orientation and social influence	"Job requires having an impact on others in the organization, and displaying energy and leadership; being pleasant, cooperative, sensitive to others, easy to get along with, and having a preference for associating with other organization members"			

@@ -112,7 +112,7 @@ function bubbleChart(pelement) {
         'name': item.soc_title, 'jobzone': item.jobzone, 'competency': pelement});
     })
     curr_bubble_series.push(curr_bubble_series_name);
-  }
+  };
   $('#hcharts5').highcharts({
     title: {
       style: {

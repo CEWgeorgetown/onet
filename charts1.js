@@ -10,9 +10,9 @@ Highcharts.setOptions({
 });
 
 var lines, items,
-  arr_ditems_broad = [],
-  arr_data_broad = [],
-  arr_text_broad = [],
+  arr_ditems = [],
+  arr_data = [],
+  arr_text = [],
   curr_domain, curr_element,
   curr_data_scatter, curr_data_bar, curr_data_scatter2,
   curr_xcat = [],
@@ -25,40 +25,41 @@ function pushData(dobj, things) {
   'use strict';
   dobj.push({
     'soc_code': things[0],
-    'element_name': things[1],
-    'avg_scale': parseFloat(things[2]),
-    'tot_emp': parseFloat(things[3]),
-    'soc2': things[4],
-    'annual_earn': parseFloat(things[5]),
-    'rank_scale': things[6],
-    'soc_title': things[7],
-    'jobzone': parseInt(things[8]),
-    'type': things[9]
+    'element_id': things[1],
+    'element_name': things[2],
+    'avg_scale': parseFloat(things[3]),
+    'tot_emp': parseFloat(things[4]),
+    'soc2': things[5],
+    'annual_earn': parseFloat(things[6]),
+    'rank_scale': things[7],
+    'soc_title': things[8],
+    'jobzone': parseInt(things[9]),
+    'type': things[10]
   });
 }
 
 function create_dmenu (datain) {
   var i, temp = [], text;
-  arr_ditems_broad = [];
+  arr_ditems = [];
   $.each(datain, function (i, item) {
-    if ((arr_ditems_broad.indexOf(item.element_name) === -1) && (typeof(item.element_name) !== "undefined")) {
-      arr_ditems_broad.push(item.element_name);
+    if ((arr_ditems.indexOf(item.element_name) === -1) && (typeof(item.element_name) !== "undefined")) {
+      arr_ditems.push(item.element_name);
     }
   });
-  text = $.grep(arr_text_broad, function (n,i) {
+  text = $.grep(arr_text, function (n,i) {
     return n.domain === curr_domain;
   });
-  curr_element = arr_ditems_broad[0];
-  for (i=0; i<arr_ditems_broad.length; i=i+1) {
+  curr_element = arr_ditems[0];
+  for (i=0; i<arr_ditems.length; i=i+1) {
     if (typeof(text[i]) !== "undefined") {
-      temp.push({'element_name': arr_ditems_broad[i], 'desc': text[i]['desc']});
+      temp.push({'element_name': arr_ditems[i], 'desc': text[i]['desc']});
     }
   };
   temp.sort(function (a,b) {
     return a.element_name < b.element_name ? -1 : 1;
   });
   $('#dmenu').empty();
-  for (i in arr_ditems_broad) {
+  for (i in arr_ditems) {
     if (typeof(temp[i]) !== "undefined") {
     if (temp[i]['element_name'] === curr_element) {
       $('#dmenu').append(
@@ -85,10 +86,10 @@ function switchDomain (filename) {
       line = line.replace(/(\r\n|\n|\r)/gm, "");
       items = line.split('\t');
       if (lineNo > 0) {
-        pushData(arr_data_broad, items);
+        pushData(arr_data, items);
       }
     });
-    create_dmenu(arr_data_broad);
+    create_dmenu(arr_data);
     scatterChart(curr_element);
     barChart(curr_element);
     scatterChart2(curr_element);
@@ -103,7 +104,7 @@ function switchDomain (filename) {
 
 function scatterChart(pelement) {
   curr_scatter_series = [];
-  curr_data_scatter = $.grep(arr_data_broad, function (n, i) {
+  curr_data_scatter = $.grep(arr_data, function (n, i) {
     return n.element_name === pelement && n.type === "1";
   });
   for (j=1; j<6; j=j+1) {
@@ -136,7 +137,7 @@ function scatterChart(pelement) {
         enabled: true,
         text: 'Average score'
       },
-      min: 0,
+      // min: 0,
       startOnTick: true,
       endOnTick: true,
       showLastLabel: true
@@ -185,7 +186,7 @@ function barChart(pelement) {
   var colorpalette2 = ["#B2D732", "#66B032", "#347B98", "#092834"];
   curr_xcat = ["Job zone 1", "Job zone 2", "Job zone 3", "Job zone 4", "Job zone 5"];
   curr_bar_series = [];
-  curr_data_bar = $.grep(arr_data_broad, function (n, i) {
+  curr_data_bar = $.grep(arr_data, function (n, i) {
     return n.element_name === pelement && n.type === "0";
   });
   for (j=0; j<4; j=j+1) {
@@ -248,7 +249,7 @@ function barChart(pelement) {
 
 function scatterChart2(pelement) {
   curr_scatter2_series = [];
-  curr_data_scatter2 = $.grep(arr_data_broad , function (n, i) {
+  curr_data_scatter2 = $.grep(arr_data , function (n, i) {
     return n.element_name === pelement && n.type === "2";
   });
   temp = $.grep(curr_data_scatter2, function (n,i) {
@@ -343,30 +344,30 @@ function scatterChart2(pelement) {
 $(document).ready(function () {
   'use strict';
 
-  $.get("ContentModel_DetailedDesc_broad.txt", function (data, status) {
+  $.get("ContentModel_DetailedDesc_group.txt", function (data, status) {
     lines = data.split('\n');
     $.each(lines, function (lineNo, line) {
       line = line.replace(/(\r\n|\n|\r)/gm, "");
       line = line.replace(/"/gm,"");
       items = line.split('\t');
       if (lineNo > 0) {
-        arr_text_broad.push({'domain': items[0], 'element_id': items[1], 'element_name': items[2], 'desc': items[3]});
+        arr_text.push({'domain': items[0], 'element_id': items[1], 'element_name': items[2], 'desc': items[3]});
       }
     });
 
-    $.get('abilities_earn_broad.tsv', function (data, status) {
+    $.get('abilities_earn.tsv', function (data, status) {
       lines = data.split('\n');
       $.each(lines, function (lineNo, line) {
         line = line.replace(/(\r\n|\n|\r)/gm, "");
         items = line.split('\t');
         if (lineNo > 0) {
-          pushData(arr_data_broad, items);
+          pushData(arr_data, items);
         }
       });
 
       //Initialize
       curr_domain = 'Abilities';
-      create_dmenu(arr_data_broad);
+      create_dmenu(arr_data);
       barChart(curr_element);
       scatterChart2(curr_element);
       scatterChart(curr_element);
@@ -379,21 +380,24 @@ $(document).ready(function () {
       });
       $(".domain-list").on('click', function () {
         curr_domain = $(this).text().trim();
-        arr_data_broad = [];
+        arr_data = [];
         if (curr_domain === "Knowledge") {
-          switchDomain("knowledge_earn_broad.tsv");
+          switchDomain("knowledge_earn.tsv");
         } else if (curr_domain === "Skills") {
-          switchDomain("skills_earn_broad.tsv");
+          switchDomain("skills_earn.tsv");
         } else if (curr_domain === "Work activities") {
-          switchDomain("activities_earn_broad.tsv");
+          switchDomain("activities_earn.tsv");
         } else if (curr_domain === "Work context") {
-          switchDomain("context_earn_broad.tsv");
+          switchDomain("context_earn.tsv");
         } else if (curr_domain === "Work styles") {
-          switchDomain("styles_earn_broad.tsv");
+          switchDomain("styles_earn.tsv");
         } else if (curr_domain === "Abilities") {
-          switchDomain("abilities_earn_broad.tsv");
+          switchDomain("abilities_earn.tsv");
         };
       });
+      // console.log(curr_data_bar);
+      // console.log(curr_scatter_series);
+      // console.log(arr_data);
     });
   });
 });
