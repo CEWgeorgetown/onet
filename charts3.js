@@ -216,9 +216,6 @@ $(document).ready(function () {
         bubbleChart(curr_element);
       });
 
-      // console.log(curr_data_bar);
-      // console.log(curr_scatter_series);
-      // console.log(arr_data);
     });
   });
 });

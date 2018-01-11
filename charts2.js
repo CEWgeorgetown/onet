@@ -12,9 +12,41 @@ Highcharts.setOptions({
   }
 });
 
-var lines, items,
-  arr_data = [], curr_domain, curr_occupation, curr_heatmap_data,
+var lines, items, arr_data_detailed = [], arr_data_broad = [],
+  curr_type, curr_domain, curr_occupation, curr_heatmap_data,
   curr_heatmap_series_name = [], curr_xcat, curr_ycat, curr_bar_cat;
+
+function pushDataBroad(dobj, things) {
+  'use strict';
+  dobj.push({
+    'soc_code': things[0],
+    'element_name': things[1],
+    'avg_scale': parseFloat(things[2]),
+    'tot_emp': parseFloat(things[3]),
+    'soc2': things[4],
+    'annual_earn': parseFloat(things[5]),
+    'rank_scale': things[6],
+    'soc_title': things[7],
+    'jobzone': parseInt(things[8]),
+    'type': things[9]
+  });
+}
+function pushDataDetailed(dobj, things) {
+  'use strict';
+  dobj.push({
+    'soc_code': things[0],
+    'element_id': things[1],
+    'element_name': things[2],
+    'avg_scale': parseFloat(things[3]),
+    'tot_emp': parseFloat(things[4]),
+    'soc2': things[5],
+    'annual_earn': parseFloat(things[6]),
+    'rank_scale': things[7],
+    'soc_title': things[8],
+    'jobzone': parseInt(things[9]),
+    'type': things[10]
+  });
+}
 
 function pushData(dobj, things) {
   'use strict';
@@ -32,9 +64,10 @@ function pushData(dobj, things) {
     'type': things[10]
   });
 }
-function heatChart () {
+
+function heatChart (pdata) {
   var temp;
-  curr_heatmap_data = $.grep(arr_data, function (n,i) {
+  curr_heatmap_data = $.grep(pdata, function (n,i) {
       return n.soc2 === curr_occupation;
   });
   curr_heatmap_series = [];
@@ -54,6 +87,24 @@ function heatChart () {
   });
   curr_ycat.reverse();
   curr_bar_cat.reverse();
+  if ((curr_domain === 'Work activities') || (curr_domain === 'Work context')) {
+    if (curr_ycat.length < 25) {
+      $("#hcharts4").css("height", "800px");
+      $("#hcharts4a").css("height", "500px");
+    } else if (curr_ycat.length < 50) {
+      $("#hcharts4").css("height", "1100px");
+      $("#hcharts4a").css("height", "800px");
+    } else if (curr_ycat.length < 75) {
+      $("#hcharts4").css("height", "1400px");
+      $("#hcharts4a").css("height", "1100px");
+    } else if (curr_ycat.length < 100) {
+      $("#hcharts4").css("height", "1700px");
+      $("#hcharts4a").css("height", "1400px");
+    } else {
+      $("#hcharts4").css("height", "2300px");
+      $("#hcharts4a").css("height", "2000px");
+    }
+} else {
   if (curr_ycat.length < 25) {
     $("#hcharts4").css("height", "600px");
     $("#hcharts4a").css("height", "480px");
@@ -70,6 +121,7 @@ function heatChart () {
     $("#hcharts4").css("height", "2100px");
     $("#hcharts4a").css("height", "1980px");
   }
+}
   for (y = 0; y < curr_ycat.length; y = y + 1) {
     temp = $.grep(curr_heatmap_data, function (n, i) {
       return n.soc_title === curr_ycat[y];
@@ -166,65 +218,145 @@ function heatChart () {
 };
 
 function switchDomain (filename) {
-  $.get(filename, function (data, status) {
-    lines = data.split('\n');
-    $.each(lines, function (lineNo, line) {
-      line = line.replace(/(\r\n|\n|\r)/gm, "");
-      items = line.split('\t');
-      if (lineNo > 0) {
-        pushData(arr_data, items);
-      }
+  if (curr_type === "Broad") {
+    $.get(filename, function (data, status) {
+      lines = data.split('\n');
+      $.each(lines, function (lineNo, line) {
+        line = line.replace(/(\r\n|\n|\r)/gm, "");
+        items = line.split('\t');
+        if (lineNo > 0) {
+          pushDataBroad(arr_data_broad, items);
+        }
+      });
+      arr_data_broad = $.grep(arr_data_broad, function (n, i) {
+        return n.type === '1'
+      });
+      heatChart(arr_data_broad);
+      $(".occ-list").on('click', function () {
+        curr_occupation = $(this).text().trim();
+        heatChart(arr_data_broad);
+      });
     });
-    arr_data = $.grep(arr_data, function (n, i) {
-      return n.type === '1'
+  } else if (curr_type === "Detailed") {
+    $.get(filename, function (data, status) {
+      lines = data.split('\n');
+      $.each(lines, function (lineNo, line) {
+        line = line.replace(/(\r\n|\n|\r)/gm, "");
+        items = line.split('\t');
+        if (lineNo > 0) {
+          pushDataDetailed(arr_data_detailed, items);
+        }
+      });
+      arr_data_detailed = $.grep(arr_data_detailed, function (n, i) {
+        return n.type === '1'
+      });
+      heatChart(arr_data_detailed);
+      $(".occ-list").on('click', function () {
+        curr_occupation = $(this).text().trim();
+        heatChart(arr_data_detailed);
+      });
     });
-    heatChart();
-    $(".occ-list").on('click', function () {
-      curr_occupation = $(this).text().trim();
-      heatChart();
-    });
-  });
+  };
 };
+
+function switchType () {
+  if (curr_type === "Broad") {
+    arr_data_broad = [];
+    if (curr_domain === "Knowledge") {
+      switchDomain("knowledge_earn_broad.tsv");
+    } else if (curr_domain === "Skills") {
+      switchDomain("skills_earn_broad.tsv");
+    } else if (curr_domain === "Work activities") {
+      switchDomain("activities_earn_broad.tsv");
+    } else if (curr_domain === "Work context") {
+      switchDomain("context_earn_broad.tsv");
+    } else if (curr_domain === "Work styles") {
+      switchDomain("styles_earn_broad.tsv");
+    } else if (curr_domain === "Abilities") {
+      switchDomain("abilities_earn_broad.tsv");
+    };
+  } else if (curr_type === "Detailed") {
+    arr_data_detailed = [];
+    if (curr_domain === "Knowledge") {
+       switchDomain("knowledge_earn.tsv");
+     } else if (curr_domain === "Skills") {
+       switchDomain("skills_earn.tsv");
+     } else if (curr_domain === "Work activities") {
+       switchDomain("activities_earn.tsv");
+     } else if (curr_domain === "Work context") {
+       switchDomain("context_earn.tsv");
+     } else if (curr_domain === "Work styles") {
+       switchDomain("styles_earn.tsv");
+     } else if (curr_domain === "Abilities") {
+       switchDomain("abilities_earn.tsv");
+     };
+  }
+}
 
 $(document).ready(function () {
   'use strict';
 
-  $.get('abilities_earn.tsv', function (data, status) {
+  $.get('abilities_earn_broad.tsv', function (data, status) {
     lines = data.split('\n');
     $.each(lines, function (lineNo, line) {
       line = line.replace(/(\r\n|\n|\r)/gm, "");
       items = line.split('\t');
       if (lineNo > 0) {
-        pushData(arr_data, items);
+        pushDataBroad(arr_data_broad, items);
       }
     });
-    arr_data = $.grep(arr_data, function (n, i) {
+    arr_data_broad = $.grep(arr_data_broad, function (n, i) {
       return n.type === '1'
     });
+    $("#broad").addClass("active");
+    curr_type = "Broad";
     curr_occupation = "Management";
     curr_domain = "Abilities";
-    heatChart();
+    heatChart(arr_data_broad);
 
-    $(".occ-list").on('click', function () {
-      curr_occupation = $(this).text().trim();
-      heatChart();
-    });
-    $(".domain-list").on('click', function () {
-      curr_domain = $(this).text().trim();
-      arr_data = [];
+    $("#detailed").on('click', function () {
+      $("#detailed").addClass("active");
+      $("#broad").removeClass("active");
+      curr_type = "Detailed";
+      arr_data_detailed = [];
       if (curr_domain === "Knowledge") {
-        switchDomain("knowledge_earn.tsv");
+         switchDomain("knowledge_earn.tsv");
+       } else if (curr_domain === "Skills") {
+         switchDomain("skills_earn.tsv");
+       } else if (curr_domain === "Work activities") {
+         switchDomain("activities_earn.tsv");
+       } else if (curr_domain === "Work context") {
+         switchDomain("context_earn.tsv");
+       } else if (curr_domain === "Work styles") {
+         switchDomain("styles_earn.tsv");
+       } else if (curr_domain === "Abilities") {
+         switchDomain("abilities_earn.tsv");
+       };
+    });
+    $("#broad").on('click', function () {
+      $("#broad").addClass("active");
+      $("#detailed").removeClass("active");
+      curr_type = "Broad";
+      arr_data_broad = [];
+      if (curr_domain === "Knowledge") {
+        switchDomain("knowledge_earn_broad.tsv");
       } else if (curr_domain === "Skills") {
-        switchDomain("skills_earn.tsv");
+        switchDomain("skills_earn_broad.tsv");
       } else if (curr_domain === "Work activities") {
-        switchDomain("activities_earn.tsv");
+        switchDomain("activities_earn_broad.tsv");
       } else if (curr_domain === "Work context") {
-        switchDomain("context_earn.tsv");
+        switchDomain("context_earn_broad.tsv");
       } else if (curr_domain === "Work styles") {
-        switchDomain("styles_earn.tsv");
-      } else if (curr_domain === "Activities") {
-        switchDomain("activities_earn.tsv");
+        switchDomain("styles_earn_broad.tsv");
+      } else if (curr_domain === "Abilities") {
+        switchDomain("abilities_earn_broad.tsv");
       };
     });
+
+    $(".domain-list").on('click', function () {
+      curr_domain = $(this).text().trim();
+      switchType();
+    });
   });
+
 })
